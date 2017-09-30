@@ -4,6 +4,9 @@ FROM node:argon
 #install express
 RUN sudo npm install -g -express-generator
 
+#add applicatons files
+ADD app.js
+
 #run express
 RUN express myapp
 RUN cd "myapp"
