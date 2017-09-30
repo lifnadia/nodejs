@@ -1,24 +1,13 @@
-#image include NPM and node
-FROM node:argon
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-#install express
-RUN sudo npm install -g -express-generator
-
-#add applicatons files
-ADD app.js
-
-#run express
-RUN express myapp
-RUN cd "myapp"
-
-#run npm install
+# Install app dependencies
+COPY package.json /usr/src/app/
 RUN npm install
 
-#redirect port 80 to 3000
-RUN sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 3000 
+# Bundle app source
+COPY server.js /usr/src/app
 
-#run application
-RUN npm start
-
-
-
+EXPOSE 8080
+CMD [ "npm", "start" ]
